@@ -16,8 +16,8 @@ import (
 	"sync"
 	"time"
 
-	"gopkg.in/alecthomas/kingpin.v2"
-	"gopkg.in/yaml.v2"
+	kingpin "gopkg.in/alecthomas/kingpin.v2"
+	yaml "gopkg.in/yaml.v2"
 
 	"crypto/sha256"
 
@@ -705,6 +705,12 @@ func parseFingerprint(url string) (string, error) {
 		fingerprint += ":" + port
 	} else {
 		fingerprint += ":5432"
+	}
+
+	if db, ok := kv["database"]; ok {
+		fingerprint += "/" + db
+	} else {
+		fingerprint += "/postgres"
 	}
 
 	return fingerprint, nil
